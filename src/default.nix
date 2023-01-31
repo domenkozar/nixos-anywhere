@@ -10,6 +10,12 @@
 , gnused
 , lib
 , mkShellNoCC
+, mypy
+, pixiecore
+, dnsmasq
+, python3
+, qemu_kvm
+, OVMF
 }:
 let
   runtimeInputs = [
@@ -35,6 +41,15 @@ in
 }) // {
   # Dependencies for our devshell
   devShell = mkShellNoCC {
-    packages = runtimeInputs ++ [ openssh ];
+    OVMF = "${OVMF.fd}/FV/OVMF.fd";
+
+    packages = runtimeInputs ++ [
+      openssh
+      mypy
+      pixiecore
+      dnsmasq
+      python3.pkgs.netaddr
+      qemu_kvm
+    ];
   };
 }
